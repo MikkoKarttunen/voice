@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import musicService from './services/music';
+import GigsInfo from './components/Music'
 
 function App() {
+
+  const [gigs, setGigs] = useState([]);
+
+  const getGigs = () => {
+    console.log("starting effect");
+    musicService
+    .getAll()
+    .then(allGigs => {
+    setGigs(allGigs);
+    })
+    };
+
+    useEffect(getGigs, []);
+    console.log("ready", gigs);
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>React bootstrat demo</h1>
       </header>
+        <GigsInfo gigData={gigs} setgigs={setGigs} />
     </div>
   );
 }
